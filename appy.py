@@ -12,8 +12,7 @@ colDois = input("Digite o nome da segunda coluna: ")
 
 # Pedir ao usuário para inserir as cores e nomes
 colUm = [input(f"Insira o dado referente {colUm} {i+1}: ") for i in range(n)]
-colDois = [
-    input(f"Insira o dado referente {colDois} {i+1}: ") for i in range(n)]
+colDois = [input(f"Insira o dado referente {colDois} {i+1}: ") for i in range(n)]
 
 # Criar um dataframe com as cores e nomes
 dados = {'Cor': colUm, 'Nome': colDois}
