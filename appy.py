@@ -1,9 +1,10 @@
 import os
+import tkinter as tk
+from datetime import datetime
+from tkinter import messagebox
+
 import pandas as pd
 from docx import Document
-import tkinter as tk
-from tkinter import messagebox
-from datetime import datetime
 
 # Pedir ao usuário para inserir o número de dados
 n = int(input("Insira o número de dados: "))
@@ -11,36 +12,53 @@ colUm = input("Digite o nome da primeira coluna: ")
 colDois = input("Digite o nome da segunda coluna: ")
 
 # Pedir ao usuário para inserir as cores e nomes
-colUm = [input(f"Insira o dado referente {colUm} {i+1}: ") for i in range(n)]
-colDois = [input(f"Insira o dado referente {colDois} {i+1}: ") for i in range(n)]
+colUmData = [
+    input(f"Insira o dado referente {colUm} {i+1}: ") for i in range(n)]
+colDoisData = [
+    input(f"Insira o dado referente {colDois} {i+1}: ") for i in range(n)]
 
 # Criar um dataframe com as cores e nomes
-dados = {'Cor': colUm, 'Nome': colDois}
+dados = {colUm: colUmData, colDois: colDoisData}
 df = pd.DataFrame(dados)
 
 # Define o caminho e nome do arquivo com a data do dia
 today = datetime.today().strftime('%Y-%m-%d')
-filepath_excel = f'C:\\Users\\x\\Documents\\Excel\\cores_e_nomes_{today}.xlsx'
-filepath_word = f'C:\\Users\\x\\Documents\\Word\\cores_e_nomes_{today}.docx'
-filepath_csv = f'C:\\Users\\x\\Documents\\csv\\cores_e_nomes_{today}.csv'
+filepath_excel = f'C:\\Users\\x\\Documents\\Excel\\appy-PY{today}.xlsx'
+filepath_word = f'C:\\Users\\x\\Documents\\Word\\appy-PY{today}.docx'
+filepath_csv = f'C:\\Users\\x\\Documents\\csv\\appy-PY{today}.csv'
 
-# Salva os arquivos sem substituir os existentes
-if not os.path.exists(filepath_excel):
-    df.to_excel(filepath_excel, index=False)
+# Salva os arquivos permitindo substituir os existentes
+if os.path.exists(filepath_excel):
+    confirm = messagebox.askyesno(
+        "Arquivo existente", f"O arquivo {filepath_excel} já existe. Deseja substituí-lo?")
+    if not confirm:
+        messagebox.showinfo("Arquivo não salvo",
+                            f"O arquivo {filepath_excel} não foi salvo.")
+    else:
+        df.to_excel(filepath_excel, index=False)
 else:
-    messagebox.showinfo(
-        "Arquivo existente", "O arquivo " + filepath_excel + " já existe.")
+    df.to_excel(filepath_excel, index=False)
 
-if not os.path.exists(filepath_word):
+if os.path.exists(filepath_word):
+    confirm = messagebox.askyesno(
+        "Arquivo existente", f"O arquivo {filepath_word} já existe. Deseja substituí-lo?")
+    if not confirm:
+        messagebox.showinfo("Arquivo não salvo",
+                            f"O arquivo {filepath_word} não foi salvo.")
+    else:
+        document = Document()
+        table = document.add_table(rows=1, cols=2)
+        for i in range(len(df)):
+            cells = table.add_row().cells
+            cells[0].text = df.iloc[i][colUm]
+            cells[1].text = df.iloc[i][colDois]
+        document.save(filepath_word)
+else:
     document = Document()
     table = document.add_table(rows=1, cols=2)
     for i in range(len(df)):
         cells = table.add_row().cells
-        cells[0].text = df.iloc[i]['Cor']
-        cells[1].text = df.iloc[i]['Nome']
-    document.save(filepath_word)
-else:
-    messagebox.showinfo(
-        "Arquivo existente", "O arquivo " + filepath_word + " já existe.")
+        cells[0].text = df.iloc[i][colUm]
+        cells[1].text = df.iloc[i]
 
 print("Salvo com sucesso!")
