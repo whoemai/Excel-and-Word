@@ -23,7 +23,7 @@ df = pd.DataFrame(dados)
 
 # Define o caminho e nome do arquivo com a data do dia
 today = datetime.today().strftime('%Y-%m-%d')
-filepath_excel = f'C:\\Users\\x\\Documents\\Excel\\appy-PY{today}.xlsx'
+filepath_excel = f'C:\\Users\\x\\Documents\\Export Python\\appy-PY{today}.xlsx'
 
 # Salva os arquivos permitindo substituir os existentes
 if os.path.exists(filepath_excel):
