@@ -28,7 +28,9 @@ for i in range(quantidadeColuna):
 # Pedir ao usuário para inserir os dados
 dados = {}
 for nome in nomesColunas:
-    dados[nome] = [input(f"Insira o dado referente a {nome} {i+1}: ") for i in range(n)]
+    dados[nome] = [
+        input(f"Insira o dado referente a {nome} {i+1}: ") for i in range(n)
+    ]
 
 # Criar um dataframe com os dados
 df = pd.DataFrame(dados, columns=nomesColunas)
@@ -39,10 +41,11 @@ filepath_excel = f'C:\\Users\\x\\Documents\\Export Python\\appy-PY{today}.xlsx'
 
 # Salva os arquivos permitindo substituir os existentes
 if os.path.exists(filepath_excel):
-    confirm = messagebox.askyesno(
-        "Arquivo existente", f"O arquivo {filepath_excel} já existe. Deseja substituí-lo?")
+    confirm = messagebox.askyesno("Arquivo existente",
+                                  f"O arquivo {filepath_excel} já existe. Deseja substituí-lo?")
     if not confirm:
-        messagebox.showinfo("Arquivo não salvo", f"O arquivo {filepath_excel} não foi salvo.")
+        messagebox.showinfo("Arquivo não salvo",
+                            f"O arquivo {filepath_excel} não foi salvo.")
     else:
         df.to_excel(filepath_excel, index=False)
 else:
