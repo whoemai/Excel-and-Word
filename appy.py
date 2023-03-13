@@ -8,6 +8,7 @@ from docx import Document
 # Pedir ao usuário para inserir o número de dados
 n = int(input("Insira o número de dados: "))
 
+
 # Pedir ao usuário para inserir a quantidade de colunas desejadas
 while True:
     quantidadeColuna = int(input("Digite a quantidade de colunas desejadas: "))
